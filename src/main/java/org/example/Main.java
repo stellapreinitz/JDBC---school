@@ -16,5 +16,18 @@ public class Main
         {
             System.out.println("Kunde inte ansluta " + e.getMessage());
         }
+
+        SessionRepository sessionRepo = new SessionRepository();
+        try
+        {
+            for (SessionRepository.Session s : sessionRepo.findAll())
+            {
+                System.out.println(s.name() + " " + s.date() + " " + s.maxParticipants());
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Databasfel: " + e.getMessage());
+        }
     }
 }
