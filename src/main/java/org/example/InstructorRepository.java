@@ -9,14 +9,14 @@ import java.util.List;
 
 public class InstructorRepository
 {
-    public record Instructor (String name, int sessions)
+    public record Instructor (String name, int sessionCount)
     {
     }
 
     public List<InstructorRepository.Instructor> findAll() throws SQLException
     {
         String sql = """
-                SELECT i.name, count(instructor_id) AS sessions
+                SELECT i.name, count(s.id) AS session_count
                 
                 FROM instructors i
                 LEFT JOIN sessions s ON i.id = s.instructor_id
@@ -32,7 +32,7 @@ public class InstructorRepository
             {
                 instructors.add(new InstructorRepository.Instructor(
                         rs.getString("name"),
-                        rs.getInt("sessions")));
+                        rs.getInt("session_count")));
             }
         }
         return instructors;

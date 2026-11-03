@@ -1,9 +1,6 @@
 package org.example;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,5 +34,34 @@ public class SessionRepository
             }
         }
         return sessions;
+    }
+
+    public List<String> findMembersNames(String sessionName) throws SQLException
+    {
+        String sql = """
+                SELECT m.name
+                
+                FROM bookings b
+                JOIN members m ON m.id = b.member_id
+                JOIN sessions s ON s.id = b.session_id
+                Where s.name = ?
+                
+                ORDER BY m.name;
+                """;
+        List<String> names = new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql))
+        {
+            ps.setString(1, sessionName);
+
+            try (ResultSet rs = ps.executeQuery())
+            {
+                while (rs.next())
+                {
+                    names.add(rs.getString("name"));
+                }
+            }
+        }
+        return names;
     }
 }

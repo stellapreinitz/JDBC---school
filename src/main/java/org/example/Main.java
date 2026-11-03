@@ -50,8 +50,18 @@ public class Main
         {
             for (InstructorRepository.Instructor i : instructorRepo.findAll())
             {
-                System.out.println(i.name() + " " + i.sessions());
+                System.out.println(i.name() + " " + i.sessionCount());
             }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Databasfel: " + e.getMessage());
+        }
+
+        try
+        {
+            System.out.println("Spinning " + sessionRepo.findMembersNames("Spinning"));
+            System.out.println("Spinning " + sessionRepo.findMembersNames("'OR' '1=1'"));
         }
         catch (SQLException e)
         {
