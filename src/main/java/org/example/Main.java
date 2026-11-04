@@ -9,12 +9,12 @@ public class Main
     {
         try (Connection conn = Db.getConnection())
         {
-            System.out.println("Ansluten till " + conn.getCatalog());
+            System.out.println("Connected to " + conn.getCatalog());
         }
 
         catch (SQLException e)
         {
-            System.out.println("Kunde inte ansluta " + e.getMessage());
+            System.out.println("Could not connect " + e.getMessage());
         }
 
         // Creating Repository objects
@@ -31,7 +31,7 @@ public class Main
         }
         catch (SQLException e)
         {
-            System.out.println("Databasfel: " + e.getMessage());
+            System.out.println("Database error: " + e.getMessage());
         }
 
         try
@@ -43,7 +43,7 @@ public class Main
         }
         catch (SQLException e)
         {
-            System.out.println("Databasfel: " + e.getMessage());
+            System.out.println("Database error: " + e.getMessage());
         }
 
         try
@@ -55,7 +55,7 @@ public class Main
         }
         catch (SQLException e)
         {
-            System.out.println("Databasfel: " + e.getMessage());
+            System.out.println("Database error: " + e.getMessage());
         }
 
         try
@@ -65,7 +65,49 @@ public class Main
         }
         catch (SQLException e)
         {
-            System.out.println("Databasfel: " + e.getMessage());
+            System.out.println("Database error: " + e.getMessage());
+        }
+
+        try
+        {
+            MemberRepository.Member m = memberRepo.findByEmail("omar@example.com");
+            if (m != null)
+            System.out.println("Member id: " + m.id() + "\n" + m.name() + "\n" + m.email());
+            else
+            {
+                System.out.println("No member matching email");
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Database error " + e.getMessage());
+        }
+
+        try
+        {
+            MemberRepository.Member m = memberRepo.findByEmail("x@example.com");
+            if (m != null)
+                System.out.println("Member id: " + m.id() + "\n" + m.name() + "\n" + m.email());
+            else
+            {
+                System.out.println("No member matching email");
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Database error " + e.getMessage());
+        }
+
+        try
+        {
+            for (SessionRepository.InstructorSession s : instructorRepo.findByInstructor("Maja Ek"))
+            {
+                System.out.println(s.name() + " " + s.date());
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Database error " + e.getMessage());
         }
     }
 }

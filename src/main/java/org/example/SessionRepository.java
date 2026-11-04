@@ -11,6 +11,10 @@ public class SessionRepository
     {
     }
 
+    public record InstructorSession(String name, LocalDate date)
+    {
+    }
+
     public List<Session> findAll() throws SQLException
     {
         String sql = """
